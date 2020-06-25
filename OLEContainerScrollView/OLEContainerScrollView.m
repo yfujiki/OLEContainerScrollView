@@ -221,7 +221,10 @@ static void *KVOContext = &KVOContext;
             CGFloat remainingContentHeight = fmax(scrollView.contentSize.height - contentOffset.y, 0.0);
             frame.size.height = fmin(remainingBoundsHeight, remainingContentHeight);
             frame.size.width = self.contentView.bounds.size.width;
-            
+
+            // This is the most important point
+            // 1. Set frame of inner scrollview
+            // 2. Set contentOffset of outer scrollview
             subview.frame = frame;
             scrollView.contentOffset = contentOffset;
             
@@ -248,7 +251,8 @@ static void *KVOContext = &KVOContext;
 
     CGPoint initialContentOffset = self.contentOffset;
     self.contentSize = CGSizeMake(self.bounds.size.width, fmax(yOffsetOfCurrentSubview, minimumContentHeight));
-    
+
+    NSLog(@"ContentSize %@", NSStringFromCGSize(self.contentSize));
     // If contentOffset changes after contentSize change, we need to trigger layout update one more time.
     if (!CGPointEqualToPoint(initialContentOffset, self.contentOffset)) {
         [self setNeedsLayout];

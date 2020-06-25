@@ -42,6 +42,10 @@ static void *KVOContext = &KVOContext;
     self.tableView2.cellColor = [UIColor colorWithHue:0.117 saturation:0.665 brightness:0.984 alpha:1];
     self.tableView2.contentSizeOutlineColor = [UIColor colorWithHue:0.992 saturation:0.654 brightness:0.988 alpha:1];
     [self.containerScrollView addSubview:self.tableView2];
+
+    self.containerScrollView.delegate = self;
+    self.tableView1.delegate = self;
+    self.tableView2.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -78,6 +82,16 @@ static void *KVOContext = &KVOContext;
         [self.view setNeedsLayout];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.containerScrollView) {
+        NSLog(@"Scrolling container");
+    } else if (scrollView == self.tableView1) {
+        NSLog(@"Scrolling table 1");
+    } else if (scrollView == self.tableView2) {
+        NSLog(@"Scrolling table 2");
     }
 }
 
